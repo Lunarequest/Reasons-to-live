@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+modrate reasons
+{% endblock %}
+
+{% block content %}
+<div align="center" style="margin-top: 15%;">
+    <div>{{reason.reason}}</div>
+    - by {{reason.display_name}}
+
+    <div style="margin-top: 3%;">
+        <button class="button2"
+            onclick="window.location.href='approve_reason/{{reason.id}}'">Approve</button></a>&nbsp&nbsp&nbsp
+        <button class="button3" onclick="window.location.href='denie_reason/{{reason.id}}'">Denie</button>
+    </div>
+</div>
+<span>
+    <a href="/logout">Logout</a>
+</span>
+{% endblock %}

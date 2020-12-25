@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
+    <title>A compliation of reasons to live</title>
+    <style>
+        * {
+            font-family: hack;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 align="center">Reasons To Live By People</h1>
+    <div align="center">
+        <p>
+            This project was inspired by a play about mental health. you can submit more reason <a
+                href="submit">here</a></br>
+            If you are ever feeling down in the dumps and need a reminder why life is awesome. You came to the right
+            place. If you need to find a place to call check this<a
+                href="https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines">page</a>
+        </p>
+    </div>
+    <div align="center">
+        {% for reason in reasons %}
+        <p>
+            {{reason.reason}} </br>-by {{reason.display_name}}
+        </p>
+
+        {% endfor %}
+    </div>
+    <div align="center">
+        <span>
+            {% if reasons.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ reasons.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ reasons.number }} of {{ reasons.paginator.num_pages }}
+            </span>
+            {% if reasons.has_next %}
+            <a href="?page={{ reasons.next_page_number }}">next > </a>
+            <a href="?page={{ reasons.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+
+</html>

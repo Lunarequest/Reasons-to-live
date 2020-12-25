@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+reason denied
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <b>Give your reason for dening this reason</b></br>
+    <input type="text" name="reason" placeholder="Enter your reason"></br>
+    <input type="submit" class="button1" value="denie this reason">
+</form>
+{% endblock %}

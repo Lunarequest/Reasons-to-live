@@ -1,0 +1,15 @@
+arrow==0.17.0
+asgiref==3.3.1
+blessed==1.17.12
+dj-database-url==0.5.0
+Django==3.1.4
+django-picklefield==3.0.1
+django-q==1.3.4
+gunicorn==20.0.4
+psycopg2==2.8.6
+python-dateutil==2.8.1
+pytz==2020.5
+six==1.15.0
+sqlparse==0.4.1
+wcwidth==0.2.5
+whitenoise==5.2.0

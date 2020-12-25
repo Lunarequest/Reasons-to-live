@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+submit reason
+{% endblock %}
+{% block content %}
+<b>Please keep in mind this must be PG-13</b>
+<form method="post">
+    {% csrf_token %}
+    <b>Give your reason(you have 1000 charecters make em count)</b></br>
+    <input type="text" name="reason" placeholder="Enter your reason" maxlength="1000"></br>
+    <b>Enter your email</b></br>
+    <input type="email" name="email" placeholder="Enter your email"></br>
+    <b>Enter a display name(only 10 charecters)</b></br>
+    <input type="text" name="displayName" placeholder="Enter a display name" maxlength="11"></br>
+    <input type="submit" class="button1" value="Submit your reason">
+</form>
+{% endblock %}

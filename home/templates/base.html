@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <style>
+        * {
+            font-family: hack;
+        }
+
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        input[type=email] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .button1 {
+            background-color: #4CAF50;
+            width: 100%;
+            padding: 10px 24px;
+        }
+
+        .button2 {
+            background-color: #4CAF50;
+            width: 10%;
+            padding: 10px 24px;
+        }
+
+        .button3 {
+            background-color: red;
+            width: 10%;
+            padding: 10px 24px;
+        }
+    </style>
+</head>
+
+<body>
+    {% block content %}
+    {% endblock %}
+    {% for mess in messages %}
+    {{mess}}
+    {% endfor %}
+</body>
+
+</html>
