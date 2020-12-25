@@ -1,3 +1,4 @@
+from logging import disable
 from django.shortcuts import render, redirect, HttpResponse
 from .models import reason_unapproved, reason_approved
 from django.core.mail import send_mail
@@ -129,15 +130,11 @@ def denied(request, reason_id):
         if request.method == "POST":
             reason = request.POST["reason"]
             ob = reason_unapproved.objects.filter(id=reason_id).first()
-            async_task(
-                email_denined,
-                ob.values("reason"),
-                reason,
-                ob.values("email"),
-                reason,
-                ob.values("display_name"),
-                reason_id,
-            )
+            # email_denined(reason, email, display_name, reason_id):
+            reason = ob.values("reason")
+            email = ob.values("email")
+            display_name = ob.values("display_name")
+            async_task(email_denined, reason, email, display_name, reason_id)
             return redirect("/modrate")
         else:
             return render(request, "deined.html")
