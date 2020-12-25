@@ -19,15 +19,17 @@ def index(request):
 
 
 def email_added(reason, email, display_name):
+    email = str(email)
     message = f"""Dear {display_name},
                 Your reason: '{reason}' has been added to the moderation queued
                 You wil recive a mail when it is approved
                 Sincerly 
                 The team at resons to live"""
+    print(message)
     send_mail(
         "Reason submited",
         message,
-        "Noreply@reasonstolive",
+        "reasons.to.live.herokuapp@gmail.com",
         [email],
         fail_silently=True,
     )
@@ -41,7 +43,22 @@ def email_approved(reason, email, display_name):
     send_mail(
         "Reason Approved",
         message,
-        "Noreply@reasonstolive",
+        "reasons.to.live.herokuapp@gmail.com",
+        [email],
+        fail_silently=True,
+    )
+
+
+def email_denined(reason, reason_denied, email, display_name):
+    message = f"""Dear {display_name},
+                Your reason: '{reason}' has been denied
+                It was denied for the following reason:\n {reason_denied}
+                Sincerly 
+                The team at resons to live"""
+    send_mail(
+        "Reasons denied",
+        message,
+        "reasons.to.live.herokuapp@gmail.com",
         [email],
         fail_silently=True,
     )
@@ -106,21 +123,6 @@ def approved(request, id):
         return redirect("/modrate")
     else:
         HttpResponse("you must login first!")
-
-
-def email_denined(reason, reason_denied, email, display_name):
-    message = f"""Dear {display_name},
-                Your reason: '{reason}' has been denied
-                It was denied for the following reason:\n {reason_denied}
-                Sincerly 
-                The team at resons to live"""
-    send_mail(
-        "Reasons denied",
-        message,
-        "Noreply@reasonstolive",
-        [email],
-        fail_silently=True,
-    )
 
 
 def denied(request, id):
