@@ -49,15 +49,14 @@ def email_approved(reason, email, display_name, reason_id):
     reason = reason_unapproved.objects.filter(id=reason_id).delete()
 
 
-def email_denined(reason, reason_denied, email, display_name, reason_id):
+def email_denined(reason, email, display_name, reason_id):
     reason = reason_unapproved.objects.filter(id=reason_id).delete()
     message = f"""Dear {display_name},
-                Your reason: '{reason}' has been denied
-                It was denied for the following reason:\n {reason_denied}
+                Your reason: '{reason}' has been denied.
                 Sincerly 
                 The team at resons to live"""
     send_mail(
-        "Reasons denied",
+        "Reason denied",
         message,
         "reasons.to.live.herokuapp@gmail.com",
         [email],
@@ -114,7 +113,6 @@ def approved(request, reason_id):
         ob = reason_unapproved.objects.filter(id=reason_id)
         async_task(
             email_approved,
-            ob.values("reason"),
             reason,
             ob.values("email"),
             reason,
