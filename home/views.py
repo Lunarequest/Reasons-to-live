@@ -127,16 +127,12 @@ def approved(request, reason_id):
 
 def denied(request, reason_id):
     if request.user.is_authenticated:
-        if request.method == "POST":
-            reason = request.POST["reason"]
-            ob = reason_unapproved.objects.filter(id=reason_id).first()
-            # email_denined(reason, email, display_name, reason_id):
-            reason = ob.values("reason")
-            email = ob.values("email")
-            display_name = ob.values("display_name")
-            async_task(email_denined, reason, email, display_name, reason_id)
-            return redirect("/modrate")
-        else:
-            return render(request, "deined.html")
+        ob = reason_unapproved.objects.filter(id=reason_id).first()
+        # email_denined(reason, email, display_name, reason_id):
+        reason = ob.values("reason")
+        email = ob.values("email")
+        display_name = ob.values("display_name")
+        async_task(email_denined, reason, email, display_name, reason_id)
+        return redirect("/modrate")
     else:
         HttpResponse("you must login first!")
