@@ -25,7 +25,6 @@ def email_added(reason, email, display_name):
                 You wil recive a mail when it is approved
                 Sincerly 
                 The team at resons to live"""
-    print(message)
     send_mail(
         "Reason submited",
         message,
@@ -35,7 +34,7 @@ def email_added(reason, email, display_name):
     )
 
 
-def email_approved(reason, email, display_name):
+def email_approved(reason, email, display_name, reason_id):
     message = f"""Dear {display_name},
                 Your reason: '{reason}' has been approved
                 Sincerly 
@@ -47,9 +46,11 @@ def email_approved(reason, email, display_name):
         [email],
         fail_silently=True,
     )
+    reason = reason_unapproved.objects.filter(id=reason_id).delete()
 
 
-def email_denined(reason, reason_denied, email, display_name):
+def email_denined(reason, reason_denied, email, display_name, reason_id):
+    reason = reason_unapproved.objects.filter(id=reason_id).delete()
     message = f"""Dear {display_name},
                 Your reason: '{reason}' has been denied
                 It was denied for the following reason:\n {reason_denied}
@@ -101,16 +102,16 @@ def modrate_reasons(request):
         HttpResponse("you must login first!")
 
 
-def approved(request, id):
+def approved(request, reason_id):
     if request.user.is_authenticated:
-        reason = reason_unapproved.objects.filter(id=id)
+        reason = reason_unapproved.objects.filter(id=reason_id)
         q = reason_approved(
             reason=reason.values("reason"),
             email=reason.values("email"),
             display_name=reason.values("display_name"),
         )
         q.save()
-        ob = reason_unapproved.objects.filter(id=id)
+        ob = reason_unapproved.objects.filter(id=reason_id)
         async_task(
             email_approved,
             ob.values("reason"),
@@ -118,18 +119,18 @@ def approved(request, id):
             ob.values("email"),
             reason,
             ob.values("display_name"),
+            reason_id,
         )
-        reason = reason_unapproved.objects.filter(id=id).delete()
         return redirect("/modrate")
     else:
         HttpResponse("you must login first!")
 
 
-def denied(request, id):
+def denied(request, reason_id):
     if request.user.is_authenticated:
         if request.method == "POST":
             reason = request.POST["reason"]
-            ob = reason_unapproved.objects.filter(id=id)
+            ob = reason_unapproved.objects.filter(id=reason_id).first()
             async_task(
                 email_denined,
                 ob.values("reason"),
@@ -137,8 +138,8 @@ def denied(request, id):
                 ob.values("email"),
                 reason,
                 ob.values("display_name"),
+                reason_id,
             )
-            reason_unapproved.objects.filter(id=id).delete()
             return redirect("/modrate")
         else:
             return render(request, "deined.html")
