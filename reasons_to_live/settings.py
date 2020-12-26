@@ -96,7 +96,7 @@ WSGI_APPLICATION = "reasons_to_live.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-if DEBUG == True:
+if DEBUG == False:
     DATABASES = {"default": {}}
     db_from_env = dj_database_url.config(conn_max_age=600)
     DATABASES["default"].update(db_from_env)
